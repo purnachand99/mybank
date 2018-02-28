@@ -22,7 +22,6 @@ public class User {
     @NotBlank
     private String email;
 
-
     @NotBlank
     private String password;
 
@@ -35,6 +34,14 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Calendar updatedAt;
+
+    public User() {
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public String getEmail() {
         return email;

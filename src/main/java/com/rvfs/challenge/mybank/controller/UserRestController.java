@@ -1,6 +1,9 @@
 package com.rvfs.challenge.mybank.controller;
 
+import com.rvfs.challenge.mybank.controller.dto.UserDTO;
+import com.rvfs.challenge.mybank.model.Customer;
 import com.rvfs.challenge.mybank.model.User;
+import com.rvfs.challenge.mybank.service.CustomerService;
 import com.rvfs.challenge.mybank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +28,13 @@ public class UserRestController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private CustomerService customService;
 
 	@PostMapping("/signup")
-	public ResponseEntity<Object> signup(@RequestBody User user) {
-		userService.signup(user);
+	public ResponseEntity<Object> signup(@RequestBody UserDTO user) {
+		userService.signup(new User(user.getEmail(), user.getPassword()));
+		customService.create(new Customer(user.getName()));
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getEmail())
 				.toUri();

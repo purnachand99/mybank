@@ -31,6 +31,13 @@ public class Customer {
     @LastModifiedDate
     private Calendar updatedAt;
 
+    public Customer() {
+    }
+
+    public Customer(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

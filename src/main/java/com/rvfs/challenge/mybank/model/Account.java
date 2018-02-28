@@ -17,7 +17,6 @@ import java.util.Calendar;
         allowGetters = true)
 public class Account {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long accountNumber;
