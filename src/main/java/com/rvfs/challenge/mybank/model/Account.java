@@ -18,7 +18,12 @@ import java.util.Calendar;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @OneToOne
+    @MapsId
+    private Customer customer;
+
     private Long accountNumber;
 
     private BigDecimal balance;
@@ -32,6 +37,22 @@ public class Account {
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Calendar updatedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public Long getAccountNumber() {
         return accountNumber;

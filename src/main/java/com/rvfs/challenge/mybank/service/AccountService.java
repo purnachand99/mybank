@@ -1,10 +1,13 @@
 package com.rvfs.challenge.mybank.service;
 
-import com.rvfs.challenge.mybank.model.Customer;
+import com.rvfs.challenge.mybank.model.Account;
 
 public interface AccountService {
 
-    void create(Customer customer);
+    Account create(Account account);
 
-    Customer find(Long id);
+    Account find(Long id);
+
+    Account findByAccountNumber(Long accountNumber);
+
 }

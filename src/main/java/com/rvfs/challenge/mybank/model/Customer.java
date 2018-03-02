@@ -1,6 +1,7 @@
 package com.rvfs.challenge.mybank.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,10 +17,14 @@ import java.util.Calendar;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank
     private String name;
+
+    @OneToOne
+    @MapsId
+    private User user;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -69,4 +74,13 @@ public class Customer {
     public void setUpdatedAt(Calendar updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

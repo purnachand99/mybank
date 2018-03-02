@@ -18,6 +18,9 @@ import java.util.Calendar;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @Email
     @NotBlank
     private String email;
@@ -41,6 +44,14 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {

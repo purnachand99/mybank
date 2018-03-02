@@ -1,5 +1,9 @@
-package com.rvfs.challenge.mybank.controller.dto;
+package com.rvfs.challenge.mybank.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(value = {"password"},
+        allowSetters = true)
 public class UserDTO {
 
     private String email;

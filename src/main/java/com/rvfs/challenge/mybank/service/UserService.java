@@ -1,10 +1,11 @@
 package com.rvfs.challenge.mybank.service;
 
 import com.rvfs.challenge.mybank.model.User;
+import com.rvfs.challenge.mybank.dto.UserDTO;
 
 public interface UserService {
 
-    void signup(User user);
+    void signup(UserDTO user);
 
-    User signin(User user);
+    User signin(UserDTO user);
 }
