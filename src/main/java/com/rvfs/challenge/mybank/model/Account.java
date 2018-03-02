@@ -24,6 +24,7 @@ public class Account {
     @MapsId
     private Customer customer;
 
+    @Column(columnDefinition = "long auto_increment")
     private Long accountNumber;
 
     private BigDecimal balance;

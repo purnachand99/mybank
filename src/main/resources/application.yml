@@ -1,0 +1,40 @@
+### Spring Datasource Settings
+spring:
+  datasource:
+    url: jdbc:h2:mem:mybanktest
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+      properties:
+        hibernate:
+          show_sql: false
+          use_sql_comments: false
+          format_sql: false
+
+### H2 Settings
+spring.h2:
+  console:
+    enabled: true
+    path: /console
+    settings:
+      trace: false
+      web-allow-others: false
+
+### Server
+server:
+  port: 8080
+  sessionTimeout: 30
+
+### Log settings
+logging:
+  level:
+    org.springframework.web: INFO
+    org.hibernate: ERROR
+    com.rvfs.challenge.mybank: DEBUG
+  file: logs/spring-boot-logging.log

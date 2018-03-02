@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
         Account account = new Account();
         account.setCustomer(savedCustomer);
-        account.setAccountNumber(Calendar.getInstance().getTimeInMillis());
+        account.setBalance(user.getInitialBalance());
 
         ObjectParserUtil.getInstance().toString(account);
 

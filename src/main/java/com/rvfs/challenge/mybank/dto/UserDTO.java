@@ -2,6 +2,8 @@ package com.rvfs.challenge.mybank.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.math.BigDecimal;
+
 @JsonIgnoreProperties(value = {"password"},
         allowSetters = true)
 public class UserDTO {
@@ -11,6 +13,8 @@ public class UserDTO {
     private String password;
 
     private String name;
+
+    private BigDecimal initialBalance;
 
     public String getEmail() {
         return email;
@@ -34,5 +38,13 @@ public class UserDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public BigDecimal getInitialBalance() {
+        return initialBalance;
+    }
+
+    public void setInitialBalance(BigDecimal initialBalance) {
+        this.initialBalance = initialBalance;
     }
 }
