@@ -21,11 +21,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Email
-    @NotBlank
+    @Email(message = "{email.invalid}")
+    @NotBlank(message = "{email.notblank}")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "{password.notblank}")
     private String password;
 
     @Column(nullable = false, updatable = false)

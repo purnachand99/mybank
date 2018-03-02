@@ -1,5 +1,6 @@
 package com.rvfs.challenge.mybank.service;
 
+import com.rvfs.challenge.mybank.dto.AccountDTO;
 import com.rvfs.challenge.mybank.model.Account;
 import com.rvfs.challenge.mybank.model.Customer;
 import com.rvfs.challenge.mybank.model.User;
@@ -10,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
+import java.math.BigDecimal;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,27 +27,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void signup(UserDTO user) {
+    public UserDTO signup(UserDTO user) {
 
+        // creating user
         User savedUser = userRepository.save(new User(user.getEmail(), user.getPassword()));
 
+        // creating customer
         Customer customer = new Customer(user.getName());
         customer.setUser(savedUser);
-
-        ObjectParserUtil.getInstance().toString(customer);
-
         Customer savedCustomer = customService.create(customer);
 
+        // creating account
         Account account = new Account();
         account.setCustomer(savedCustomer);
-        account.setBalance(user.getInitialBalance());
-
-        ObjectParserUtil.getInstance().toString(account);
-
+        account.setBalance(BigDecimal.ZERO);
         Account savedAccount = accountService.create(account);
 
-        ObjectParserUtil.getInstance().toString(savedAccount);
+        // updating user data
+        user.setAccount(new AccountDTO());
+        user.getAccount().setAccountNumber(savedAccount.getAccountNumber());
+        user.getAccount().setUpdateAt(savedAccount.getUpdatedAt());
 
+        return user;
     }
 
     @Override

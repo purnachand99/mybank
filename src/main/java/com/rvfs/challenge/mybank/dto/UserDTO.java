@@ -1,20 +1,24 @@
 package com.rvfs.challenge.mybank.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.math.BigDecimal;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 @JsonIgnoreProperties(value = {"password"},
         allowSetters = true)
 public class UserDTO {
 
+    @NotBlank
+    @Email
     private String email;
 
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String name;
 
-    private BigDecimal initialBalance;
+    private AccountDTO account;
 
     public String getEmail() {
         return email;
@@ -40,11 +44,11 @@ public class UserDTO {
         this.name = name;
     }
 
-    public BigDecimal getInitialBalance() {
-        return initialBalance;
+    public AccountDTO getAccount() {
+        return account;
     }
 
-    public void setInitialBalance(BigDecimal initialBalance) {
-        this.initialBalance = initialBalance;
+    public void setAccount(AccountDTO account) {
+        this.account = account;
     }
 }

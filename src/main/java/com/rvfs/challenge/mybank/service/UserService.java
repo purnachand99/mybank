@@ -5,7 +5,7 @@ import com.rvfs.challenge.mybank.dto.UserDTO;
 
 public interface UserService {
 
-    void signup(UserDTO user);
+    UserDTO signup(UserDTO user);
 
     User signin(UserDTO user);
 }
