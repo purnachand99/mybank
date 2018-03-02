@@ -6,6 +6,9 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -73,6 +76,26 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             MissingServletRequestParameterException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
+
+        ApiError apiError =
+                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+        return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    /**
+     * Handle when a http message cannot be converted or read (Ex: Post without body etc).
+     *
+     * @param ex Exception to be handled
+     * @param headers Http Headers
+     * @param status Http Status
+     * @param request Http Request
+     * @return Response Entity with API Error data
+     */
+    @Override
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        String[] errorMessage = StringUtils.split(ex.getLocalizedMessage(),":");
+
+        String error = errorMessage != null ? errorMessage[0] : ex.getLocalizedMessage();
 
         ApiError apiError =
                 new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
