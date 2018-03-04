@@ -13,9 +13,9 @@ spring:
       ddl-auto: create
       properties:
         hibernate:
-          show_sql: false
+          show_sql: true
           use_sql_comments: false
-          format_sql: false
+          format_sql: true
 
 ### H2 Settings
 spring.h2:
@@ -23,7 +23,7 @@ spring.h2:
     enabled: true
     path: /console
     settings:
-      trace: false
+      trace: true
       web-allow-others: false
 
 ### Server

@@ -21,6 +21,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true)
     @Email(message = "{email.invalid}")
     @NotBlank(message = "{email.notblank}")
     private String email;

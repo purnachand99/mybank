@@ -3,7 +3,6 @@ package com.rvfs.challenge.mybank.exception;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

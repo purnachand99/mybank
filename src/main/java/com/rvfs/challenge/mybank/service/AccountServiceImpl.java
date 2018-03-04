@@ -1,7 +1,6 @@
 package com.rvfs.challenge.mybank.service;
 
 import com.rvfs.challenge.mybank.model.Account;
-import com.rvfs.challenge.mybank.model.Customer;
 import com.rvfs.challenge.mybank.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account find(Long id) {
-        return null;
+        return accountRepository.findOne(id);
     }
 
     @Override

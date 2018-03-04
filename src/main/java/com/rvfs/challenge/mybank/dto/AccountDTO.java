@@ -1,5 +1,7 @@
 package com.rvfs.challenge.mybank.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.rvfs.challenge.mybank.util.serializer.CalendarSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -11,6 +13,7 @@ public class AccountDTO {
 
     private BigDecimal currentBalance;
 
+    @JsonSerialize(using=CalendarSerializer.class)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Calendar updateAt;
 

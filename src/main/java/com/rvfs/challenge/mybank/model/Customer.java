@@ -19,7 +19,6 @@ public class Customer {
     @Id
     private Long id;
 
-    @NotBlank
     private String name;
 
     @OneToOne
