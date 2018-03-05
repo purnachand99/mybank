@@ -1,4 +1,4 @@
-package com.rvfs.challenge.mybank.exception;
+package com.rvfs.challenge.mybank.dto;
 
 import org.springframework.http.HttpStatus;
 
@@ -8,20 +8,20 @@ import java.util.List;
 /**
  * Helper class to carry Api error data
  */
-public class ApiError {
+public class ApiErrorDTO {
 
     private HttpStatus status;
     private String message;
     private List<String> errors;
 
-    public ApiError(HttpStatus status, String message, List<String> errors) {
+    public ApiErrorDTO(HttpStatus status, String message, List<String> errors) {
         super();
         this.status = status;
         this.message = message;
         this.errors = errors;
     }
 
-    public ApiError(HttpStatus status, String message, String error) {
+    public ApiErrorDTO(HttpStatus status, String message, String error) {
         super();
         this.status = status;
         this.message = message;

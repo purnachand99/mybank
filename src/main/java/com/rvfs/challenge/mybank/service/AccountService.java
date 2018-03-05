@@ -1,13 +1,23 @@
 package com.rvfs.challenge.mybank.service;
 
+import com.rvfs.challenge.mybank.dto.AccountDTO;
+import com.rvfs.challenge.mybank.dto.TransactionDTO;
+import com.rvfs.challenge.mybank.exception.BusinessException;
 import com.rvfs.challenge.mybank.model.Account;
+import com.rvfs.challenge.mybank.model.Transaction;
 
 public interface AccountService {
 
-    Account create(Account account);
+    AccountDTO create(Account account);
 
-    Account find(Long id);
+    AccountDTO find(Long id);
 
-    Account findByAccountNumber(Long accountNumber);
+    AccountDTO findByAccountNumber(Long accountNumber);
+
+    AccountDTO withdraw(TransactionDTO transaction) throws BusinessException;
+
+    AccountDTO deposit(TransactionDTO transaction) throws BusinessException;
+
+    AccountDTO getStatement(AccountDTO account);
 
 }

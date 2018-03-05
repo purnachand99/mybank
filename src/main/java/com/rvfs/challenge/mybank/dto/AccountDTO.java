@@ -17,6 +17,15 @@ public class AccountDTO {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Calendar updateAt;
 
+    public AccountDTO() {
+    }
+
+    public AccountDTO(Long accountNumber, BigDecimal currentBalance, Calendar updateAt) {
+        this.accountNumber = accountNumber;
+        this.currentBalance = currentBalance;
+        this.updateAt = updateAt;
+    }
+
     public Long getAccountNumber() {
         return accountNumber;
     }

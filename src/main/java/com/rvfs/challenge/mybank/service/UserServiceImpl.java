@@ -1,6 +1,7 @@
 package com.rvfs.challenge.mybank.service;
 
 import com.rvfs.challenge.mybank.dto.AccountDTO;
+import com.rvfs.challenge.mybank.dto.CustomerDTO;
 import com.rvfs.challenge.mybank.dto.UserDTO;
 import com.rvfs.challenge.mybank.model.Account;
 import com.rvfs.challenge.mybank.model.Customer;
@@ -36,19 +37,18 @@ public class UserServiceImpl implements UserService {
         // creating customer
         Customer customer = new Customer(user.getName());
         customer.setUser(savedUser);
-        Customer savedCustomer = customerService.create(customer);
+        customer.setId(savedUser.getId());
+        customerService.create(customer);
 
         // creating account
         Account account = new Account();
-        account.setCustomer(savedCustomer);
+        account.setId(savedUser.getId());
+        account.setCustomer(customer);
         account.setBalance(BigDecimal.ZERO);
-        Account savedAccount = accountService.create(account);
+        AccountDTO savedAccount = accountService.create(account);
 
         // updating user data
-        user.setAccount(new AccountDTO());
-        user.getAccount().setAccountNumber(savedAccount.getAccountNumber());
-        user.getAccount().setUpdateAt(savedAccount.getUpdatedAt());
-
+        user.setAccount(savedAccount);
         return user;
     }
 
@@ -61,19 +61,14 @@ public class UserServiceImpl implements UserService {
 
             System.out.println(ObjectParserUtil.getInstance().toString(loggedUser));
             // getting customer data
-            Customer customer = customerService.find(loggedUser.getId());
+            CustomerDTO customer = customerService.find(loggedUser.getId());
             System.out.println(ObjectParserUtil.getInstance().toString(customer));
             user.setName(customer.getName());
 
             // getting account data
-            Account account = accountService.find(loggedUser.getId());
+            AccountDTO account = accountService.find(loggedUser.getId());
+            user.setAccount(account);
 
-            AccountDTO userAccount = new AccountDTO();
-            userAccount.setAccountNumber(account.getAccountNumber());
-            userAccount.setCurrentBalance(account.getBalance());
-            userAccount.setUpdateAt(account.getUpdatedAt());
-
-            user.setAccount(userAccount);
             System.out.println(ObjectParserUtil.getInstance().toString(user));
 
         } else {

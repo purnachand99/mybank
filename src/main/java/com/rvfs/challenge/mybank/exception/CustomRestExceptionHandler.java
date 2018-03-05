@@ -1,5 +1,6 @@
 package com.rvfs.challenge.mybank.exception;
 
+import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -56,8 +57,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             errors.add(resolveLocalizedErrorMessage(error));
         }
 
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
+        ApiErrorDTO apiError =
+                new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
         return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
     }
 
@@ -76,8 +77,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
 
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+        ApiErrorDTO apiError =
+                new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
@@ -96,8 +97,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
         String error = errorMessage != null ? errorMessage[0] : ex.getLocalizedMessage();
 
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
+        ApiErrorDTO apiError =
+                new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 
@@ -115,7 +116,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = "No handler found for " + ex.getHttpMethod() + " " + ex.getRequestURL();
 
-        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), error);
+        ApiErrorDTO apiError = new ApiErrorDTO(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), error);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }
 

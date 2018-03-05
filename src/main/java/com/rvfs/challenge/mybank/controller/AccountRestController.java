@@ -1,7 +1,11 @@
 package com.rvfs.challenge.mybank.controller;
 
-import com.rvfs.challenge.mybank.dto.UserDTO;
+import com.rvfs.challenge.mybank.dto.AccountDTO;
 import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
+import com.rvfs.challenge.mybank.dto.TransactionDTO;
+import com.rvfs.challenge.mybank.dto.UserDTO;
+import com.rvfs.challenge.mybank.model.Transaction;
+import com.rvfs.challenge.mybank.service.AccountService;
 import com.rvfs.challenge.mybank.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -16,13 +20,13 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 /**
- * User Rest controller.
+ * Account Rest controller.
  *
  * @author rodrigovfsilva
  */
 @RestController
-@RequestMapping("/api/user")
-public class UserRestController {
+@RequestMapping("/api/account")
+public class AccountRestController {
 
     /**
      * Message resource.
@@ -31,19 +35,18 @@ public class UserRestController {
     private MessageSource messageSource;
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<Object> signup(@Valid @RequestBody UserDTO user) {
+    @PostMapping("/withdraw")
+    public ResponseEntity<Object> withdraw(@Valid @RequestBody TransactionDTO transaction) {
 
-
-        UserDTO userResponseBody = null;
-        ResponseEntity<Object> responseEntity = null;
+        AccountDTO accountResponseBody;
+        ResponseEntity<Object> responseEntity;
 
         try {
-            userResponseBody = userService.signup(user);
+            accountResponseBody = accountService.withdraw(transaction);
 
-            responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.CREATED);
+            responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
         }catch (Exception e){
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -53,27 +56,21 @@ public class UserRestController {
 
     }
 
-    @PostMapping("/signin")
-    public ResponseEntity<Object> signin(@Valid @RequestBody UserDTO user) {
+    @PostMapping("/deposit")
+    public ResponseEntity<Object> deposit(@Valid @RequestBody  TransactionDTO transaction) {
 
-        UserDTO userResponseBody = null;
-        ResponseEntity<Object> responseEntity = null;
+        AccountDTO accountResponseBody;
+        ResponseEntity<Object> responseEntity;
 
         try {
-            userResponseBody = userService.signin(user);
+            accountResponseBody = accountService.deposit(transaction);
 
-            if(userResponseBody == null){
-                String message = messageSource.getMessage("error.invalid.credentials", null, Locale.getDefault());
-                responseEntity = new ResponseEntity<>(
-                        new ApiErrorDTO(HttpStatus.BAD_REQUEST, message, message), HttpStatus.BAD_REQUEST);
-            } else {
-                responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.OK);
-            }
+            responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
         }catch (Exception e){
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
+
         return responseEntity;
 
     }

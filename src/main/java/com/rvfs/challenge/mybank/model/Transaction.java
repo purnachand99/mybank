@@ -17,6 +17,30 @@ import java.util.Calendar;
         allowGetters = true)
 public class Transaction {
 
+    /**
+     * Transaction types.
+     */
+    public enum Type{
+        WITHDRAW("W", "Withdraw"),
+        DEPOSIT("D", "Deposit");
+
+        private String code;
+
+        private String description;
+
+        Type(String code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

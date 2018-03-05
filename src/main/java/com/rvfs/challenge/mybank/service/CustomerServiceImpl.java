@@ -1,5 +1,6 @@
 package com.rvfs.challenge.mybank.service;
 
+import com.rvfs.challenge.mybank.dto.CustomerDTO;
 import com.rvfs.challenge.mybank.model.Customer;
 import com.rvfs.challenge.mybank.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,18 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerRepository customerRepository;
 
     @Override
-    public Customer create(Customer customer) {
-        return customerRepository.save(customer);
+    public CustomerDTO create(Customer customer) {
+
+        Customer savedCustomer = customerRepository.save(customer);
+
+        return new CustomerDTO(savedCustomer.getName());
     }
 
     @Override
-    public Customer find(Long id) {
-        return customerRepository.findOne(id);
+    public CustomerDTO find(Long id) {
+        Customer savedCustomer = customerRepository.findOne(id);
+
+        return new CustomerDTO(savedCustomer.getName());
+
     }
 }
