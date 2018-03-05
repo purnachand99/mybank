@@ -8,15 +8,23 @@ import com.rvfs.challenge.mybank.model.Customer;
 import com.rvfs.challenge.mybank.model.User;
 import com.rvfs.challenge.mybank.repository.UserRepository;
 import com.rvfs.challenge.mybank.util.ObjectParserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    /**
+     * Logger definition.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     private CustomerService customerService;
@@ -30,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO signup(UserDTO user) {
+        LOGGER.debug("signup {}", ObjectParserUtil.getInstance().toString(user));
 
         // creating user
         User savedUser = userRepository.save(new User(user.getEmail(), user.getPassword()));
@@ -47,8 +56,13 @@ public class UserServiceImpl implements UserService {
         account.setBalance(BigDecimal.ZERO);
         AccountDTO savedAccount = accountService.create(account);
 
+        LOGGER.debug("signup savedAccount {}", ObjectParserUtil.getInstance().toString(savedAccount));
+
         // updating user data
         user.setAccount(savedAccount);
+
+        LOGGER.debug("signup return {}", ObjectParserUtil.getInstance().toString(user));
+
         return user;
     }
 

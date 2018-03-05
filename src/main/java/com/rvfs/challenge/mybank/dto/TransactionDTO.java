@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 public class TransactionDTO {
 
     @NotNull
-    AccountDTO account;
+    private Long accountNumber;
 
-    @NotBlank
+    @NotNull
     private BigDecimal amount;
 
     private BigDecimal balance;
@@ -19,12 +19,12 @@ public class TransactionDTO {
 
     private String type;
 
-    public AccountDTO getAccount() {
-        return account;
+    public Long getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setAccount(AccountDTO account) {
-        this.account = account;
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public BigDecimal getAmount() {

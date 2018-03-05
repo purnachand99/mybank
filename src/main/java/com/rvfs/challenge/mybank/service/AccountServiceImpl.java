@@ -7,15 +7,26 @@ import com.rvfs.challenge.mybank.model.Account;
 import com.rvfs.challenge.mybank.model.Transaction;
 import com.rvfs.challenge.mybank.repository.AccountRepository;
 import com.rvfs.challenge.mybank.repository.TransactionRepository;
+import com.rvfs.challenge.mybank.util.AccountNumberGenerator;
+import com.rvfs.challenge.mybank.util.ObjectParserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.Locale;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
+    /**
+     * Logger definition.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @Autowired
     MessageSource messageSource;
@@ -28,24 +39,38 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDTO create(Account account)  {
-
+        account.setNumber(AccountNumberGenerator.getNextNumber());
+        LOGGER.debug("create {}", ObjectParserUtil.getInstance().toString(account));
         account = accountRepository.save(account);
 
-        return new AccountDTO(account.getAccountNumber(), account.getBalance(), account.getUpdatedAt());
+        AccountDTO savedAccount = new AccountDTO(account.getNumber(), account.getBalance(), account.getUpdatedAt());
+        LOGGER.debug("create result {}", ObjectParserUtil.getInstance().toString(savedAccount));
+
+        return savedAccount;
     }
 
     @Override
     public AccountDTO find(Long id) {
+        LOGGER.debug("find {}", id);
+
         Account account = accountRepository.findOne(id);
 
-        return new AccountDTO(account.getAccountNumber(), account.getBalance(), account.getUpdatedAt());
+        LOGGER.debug("find result {}", ObjectParserUtil.getInstance().toString(account));
+
+        AccountDTO foundAccount = new AccountDTO(account.getNumber(), account.getBalance(), account.getUpdatedAt());
+
+        LOGGER.debug("find result {}", ObjectParserUtil.getInstance().toString(foundAccount));
+        return foundAccount;
     }
 
     @Override
-    public AccountDTO findByAccountNumber(Long accountNumber) {
-        Account account =  accountRepository.findByAccountNumber(accountNumber);
+    public AccountDTO findByNumber(Long accountNumber) {
+        LOGGER.debug("findByNumber {}", accountNumber);
 
-        return new AccountDTO(account.getAccountNumber(), account.getBalance(), account.getUpdatedAt());
+        Account account =  accountRepository.findByNumber(accountNumber);
+
+        LOGGER.debug("findByNumber result {}", ObjectParserUtil.getInstance().toString(accountNumber));
+        return new AccountDTO(account.getNumber(), account.getBalance(), account.getUpdatedAt());
 
     }
 
@@ -55,8 +80,7 @@ public class AccountServiceImpl implements AccountService {
 
         if(transaction != null) {
 
-            if (transaction.getAccount() == null || (transaction.getAccount() != null &&
-                    transaction.getAccount().getAccountNumber() == null)) {
+            if (transaction.getAccountNumber() == null) {
                 throw new BusinessException(messageSource.getMessage("error.business.account.null.or.empty", null, Locale.getDefault()));
 
             } else if (transaction.getAmount() == null ||
@@ -68,28 +92,31 @@ public class AccountServiceImpl implements AccountService {
                 throw new BusinessException(messageSource.getMessage("error.business.transaction.amount.negative", null, Locale.getDefault()));
 
             } else {
-                Account currentAccount = accountRepository.findByAccountNumber(transaction.getAccount().getAccountNumber());
+                Account currentAccount = accountRepository.findByNumber(transaction.getAccountNumber());
 
-                BigDecimal currentBalance = currentAccount.getBalance();
+                if(currentAccount != null) {
+                    BigDecimal currentBalance = currentAccount.getBalance();
 
-                if (currentBalance != null) {
-                    currentBalance = currentBalance.subtract(transaction.getAmount());
+                    if (currentBalance != null) {
+                        currentBalance = currentBalance.subtract(transaction.getAmount());
+                    }
+
+                    Transaction withdrawTransaction = new Transaction();
+                    withdrawTransaction.setAmount(transaction.getAmount());
+                    withdrawTransaction.setBalance(currentBalance);
+                    withdrawTransaction.setDescription(transaction.getDescription());
+                    withdrawTransaction.setType(Transaction.Type.WITHDRAW.getCode());
+                    transactionRepository.save(withdrawTransaction);
+
+                    currentAccount.setBalance(currentBalance);
+                    accountRepository.save(currentAccount);
+
+                    updatedAccount.setCurrentBalance(currentBalance);
+                    updatedAccount.setAccountNumber(currentAccount.getNumber());
+                    updatedAccount.setUpdateAt(currentAccount.getUpdatedAt());
+                } else {
+                    throw new BusinessException(messageSource.getMessage("error.business.account.not.found", new Object[]{transaction.getAccountNumber()}, Locale.getDefault()));
                 }
-
-                Transaction withdrawTransaction = new Transaction();
-                withdrawTransaction.setAmount(transaction.getAmount());
-                withdrawTransaction.setBalance(currentBalance);
-                withdrawTransaction.setDescription(transaction.getDescription());
-                withdrawTransaction.setType(Transaction.Type.WITHDRAW.getCode());
-
-
-                transactionRepository.save(withdrawTransaction);
-
-                currentAccount.setBalance(currentBalance);
-                accountRepository.save(currentAccount);
-
-                updatedAccount.setCurrentBalance(currentBalance);
-                updatedAccount.setAccountNumber(currentAccount.getId());
 
             }
         }
@@ -103,8 +130,7 @@ public class AccountServiceImpl implements AccountService {
 
         if(transaction != null) {
 
-            if (transaction.getAccount() == null || (transaction.getAccount() != null &&
-                    transaction.getAccount().getAccountNumber() == null)) {
+            if (transaction.getAccountNumber() == null) {
                 throw new BusinessException(messageSource.getMessage("error.business.account.null.or.empty", null, Locale.getDefault()));
 
             } else if (transaction.getAmount() == null ||
@@ -116,27 +142,30 @@ public class AccountServiceImpl implements AccountService {
                 throw new BusinessException(messageSource.getMessage("error.business.transaction.amount.negative", null, Locale.getDefault()));
 
             } else {
-                Account currentAccount = accountRepository.findByAccountNumber(transaction.getAccount().getAccountNumber());
+                Account currentAccount = accountRepository.findByNumber(transaction.getAccountNumber());
 
-                BigDecimal currentBalance = currentAccount.getBalance();
+                if(currentAccount != null) {
 
-                if (currentBalance != null) {
-                    currentBalance = currentBalance.add(transaction.getAmount());
+                    BigDecimal currentBalance = currentAccount.getBalance();
+
+                    if (currentBalance != null) {
+                        currentBalance = currentBalance.add(transaction.getAmount());
+                    }
+
+                    Transaction withdrawTransaction = new Transaction();
+                    withdrawTransaction.setAmount(transaction.getAmount());
+                    withdrawTransaction.setBalance(currentBalance);
+                    withdrawTransaction.setDescription(transaction.getDescription());
+                    withdrawTransaction.setType(Transaction.Type.DEPOSIT.getCode());
+                    transactionRepository.save(withdrawTransaction);
+
+                    currentAccount.setBalance(currentBalance);
+                    accountRepository.save(currentAccount);
+
+                    updatedAccount.setCurrentBalance(currentBalance);
+                    updatedAccount.setAccountNumber(currentAccount.getId());
+                    updatedAccount.setUpdateAt(currentAccount.getUpdatedAt());
                 }
-
-                Transaction withdrawTransaction = new Transaction();
-                withdrawTransaction.setAmount(transaction.getAmount());
-                withdrawTransaction.setBalance(currentBalance);
-                withdrawTransaction.setDescription(transaction.getDescription());
-                withdrawTransaction.setType(Transaction.Type.DEPOSIT.getCode());
-                transactionRepository.save(withdrawTransaction);
-
-                currentAccount.setBalance(currentBalance);
-                accountRepository.save(currentAccount);
-
-                updatedAccount.setCurrentBalance(currentBalance);
-                updatedAccount.setAccountNumber(currentAccount.getId());
-
             }
         }
         return updatedAccount;

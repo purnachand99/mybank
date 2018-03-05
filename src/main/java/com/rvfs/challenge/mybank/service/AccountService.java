@@ -12,7 +12,7 @@ public interface AccountService {
 
     AccountDTO find(Long id);
 
-    AccountDTO findByAccountNumber(Long accountNumber);
+    AccountDTO findByNumber(Long accountNumber);
 
     AccountDTO withdraw(TransactionDTO transaction) throws BusinessException;
 

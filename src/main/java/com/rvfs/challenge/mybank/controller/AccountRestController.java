@@ -7,6 +7,9 @@ import com.rvfs.challenge.mybank.dto.UserDTO;
 import com.rvfs.challenge.mybank.model.Transaction;
 import com.rvfs.challenge.mybank.service.AccountService;
 import com.rvfs.challenge.mybank.service.UserService;
+import com.rvfs.challenge.mybank.util.ObjectParserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.lang.invoke.MethodHandles;
 import java.util.Locale;
 
 /**
@@ -29,6 +33,11 @@ import java.util.Locale;
 public class AccountRestController {
 
     /**
+     * Logger definition.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+    /**
      * Message resource.
      */
     @Autowired
@@ -39,9 +48,10 @@ public class AccountRestController {
 
     @PostMapping("/withdraw")
     public ResponseEntity<Object> withdraw(@Valid @RequestBody TransactionDTO transaction) {
+        LOGGER.debug("withdraw request body {}", ObjectParserUtil.getInstance().toString(transaction));
 
         AccountDTO accountResponseBody;
-        ResponseEntity<Object> responseEntity;
+        ResponseEntity<Object> responseEntity = null;
 
         try {
             accountResponseBody = accountService.withdraw(transaction);
@@ -49,7 +59,11 @@ public class AccountRestController {
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
         }catch (Exception e){
+            LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            LOGGER.debug("withdraw response body {}", ObjectParserUtil.getInstance().toString(responseEntity));
+
         }
 
         return responseEntity;
@@ -58,9 +72,10 @@ public class AccountRestController {
 
     @PostMapping("/deposit")
     public ResponseEntity<Object> deposit(@Valid @RequestBody  TransactionDTO transaction) {
+        LOGGER.debug("deposit request body {}", ObjectParserUtil.getInstance().toString(transaction));
 
         AccountDTO accountResponseBody;
-        ResponseEntity<Object> responseEntity;
+        ResponseEntity<Object> responseEntity = null;
 
         try {
             accountResponseBody = accountService.deposit(transaction);
@@ -68,7 +83,11 @@ public class AccountRestController {
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
         }catch (Exception e){
+            LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }finally {
+            LOGGER.debug("deposit response body {}", ObjectParserUtil.getInstance().toString(responseEntity));
+
         }
 
         return responseEntity;

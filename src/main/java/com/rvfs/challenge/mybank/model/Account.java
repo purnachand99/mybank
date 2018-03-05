@@ -24,8 +24,7 @@ public class Account {
     @MapsId
     private Customer customer;
 
-    @Column(columnDefinition = "long auto_increment")
-    private Long accountNumber;
+    private Long number;
 
     private BigDecimal balance;
 
@@ -55,14 +54,6 @@ public class Account {
         this.customer = customer;
     }
 
-    public Long getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(Long accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
     public BigDecimal getBalance() {
         return balance;
     }
@@ -85,5 +76,13 @@ public class Account {
 
     public void setUpdatedAt(Calendar updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Long getNumber() {
+        return number;
+    }
+
+    public void setNumber(Long number) {
+        this.number = number;
     }
 }
