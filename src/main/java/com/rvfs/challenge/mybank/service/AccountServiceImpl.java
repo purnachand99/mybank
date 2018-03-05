@@ -199,7 +199,7 @@ public class AccountServiceImpl implements AccountService {
         Account foundAccount = accountRepository.findByAccountNumber(account.getAccountNumber());
 
         if(foundAccount == null){
-            throw new MyBankException(messageSource.getMessage("error.business.account.not.found", null, Locale.getDefault()));
+            throw new MyBankException(messageSource.getMessage("error.business.account.not.found", new Object[]{account.getAccountNumber()}, Locale.getDefault()));
         }
 
         AccountDTO resultAccount = new AccountDTO(foundAccount.getAccountNumber(), foundAccount.getBalance(), foundAccount.getUpdatedAt());

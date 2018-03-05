@@ -57,7 +57,7 @@ public class AccountRestController {
 
         }catch (MyBankException e){
             LOGGER.warn(e.getLocalizedMessage(), e);
-            responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -84,7 +84,7 @@ public class AccountRestController {
 
         }catch (MyBankException e){
             LOGGER.warn(e.getLocalizedMessage(), e);
-            responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -109,6 +109,9 @@ public class AccountRestController {
 
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.OK);
 
+        }catch (MyBankException e){
+            LOGGER.warn(e.getLocalizedMessage(), e);
+            responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
         }catch (Exception e){
             LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
