@@ -1,9 +1,13 @@
 package com.rvfs.challenge.mybank.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.rvfs.challenge.mybank.util.serializer.CalendarSerializer;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Calendar;
 
 public class TransactionDTO {
 
@@ -18,6 +22,22 @@ public class TransactionDTO {
     private String description;
 
     private String type;
+
+    @JsonSerialize(using=CalendarSerializer.class)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Calendar createdAt;
+
+    public TransactionDTO() {
+    }
+
+    public TransactionDTO(Long accountNumber, BigDecimal amount, BigDecimal balance, String description, String type, Calendar createdAt) {
+        this.accountNumber = accountNumber;
+        this.amount = amount;
+        this.balance = balance;
+        this.description = description;
+        this.type = type;
+        this.createdAt = createdAt;
+    }
 
     public Long getAccountNumber() {
         return accountNumber;
@@ -57,5 +77,13 @@ public class TransactionDTO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Calendar getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
     }
 }

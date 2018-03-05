@@ -1,21 +1,31 @@
 package com.rvfs.challenge.mybank.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.NaturalId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
-
+/**
+ * Account Model.
+ */
 @Entity
 @Table(name = "Account")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class Account {
+/*@NamedEntityGraphs({
+        @NamedEntityGraph(name="allTransactions", attributeNodes = {
+                @NamedAttributeNode("transactions")
+        })
+})*/
+public class Account implements Serializable{
 
     @Id
     private Long id;
@@ -24,9 +34,17 @@ public class Account {
     @MapsId
     private Customer customer;
 
-    private Long number;
+    @NaturalId
+    private Long accountNumber;
 
     private BigDecimal balance;
+
+    @OneToMany(
+            mappedBy = "account",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Transaction> transactions;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -78,11 +96,19 @@ public class Account {
         this.updatedAt = updatedAt;
     }
 
-    public Long getNumber() {
-        return number;
+    public Long getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setNumber(Long number) {
-        this.number = number;
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

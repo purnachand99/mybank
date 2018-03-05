@@ -5,13 +5,20 @@ import com.rvfs.challenge.mybank.util.serializer.CalendarSerializer;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+/**
+ * Data Transfer Object for Account informations.
+ */
 public class AccountDTO {
 
     private Long accountNumber;
 
     private BigDecimal currentBalance;
+
+    private List<TransactionDTO> transactions;
 
     @JsonSerialize(using=CalendarSerializer.class)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -48,5 +55,20 @@ public class AccountDTO {
 
     public void setUpdateAt(Calendar updateAt) {
         this.updateAt = updateAt;
+    }
+
+    public List<TransactionDTO> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<TransactionDTO> transactions) {
+        this.transactions = transactions;
+    }
+
+    public void addTransaction(TransactionDTO transaction){
+        if(this.transactions == null){
+            this.transactions = new ArrayList<>();
+        }
+        this.transactions.add(transaction);
     }
 }

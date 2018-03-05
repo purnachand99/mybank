@@ -1,6 +1,9 @@
 package com.rvfs.challenge.mybank.exception;
 
 import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
+import com.rvfs.challenge.mybank.util.ObjectParserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -18,6 +21,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -27,6 +31,11 @@ import java.util.Locale;
  */
 @RestControllerAdvice
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
+
+    /**
+     * Logger definition.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     /**
      * Message resource.
@@ -57,6 +66,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             errors.add(resolveLocalizedErrorMessage(error));
         }
 
+        LOGGER.error(ObjectParserUtil.getInstance().toString(errors), ex);
         ApiErrorDTO apiError =
                 new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
         return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
@@ -77,6 +87,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parameter is missing";
 
+        LOGGER.error(error, ex);
         ApiErrorDTO apiError =
                 new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -96,7 +107,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         String[] errorMessage = StringUtils.split(ex.getLocalizedMessage(),":");
 
         String error = errorMessage != null ? errorMessage[0] : ex.getLocalizedMessage();
-
+        LOGGER.error(error, ex);
         ApiErrorDTO apiError =
                 new ApiErrorDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
@@ -115,7 +126,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleNoHandlerFoundException(
             NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = "No handler found for " + ex.getHttpMethod() + " " + ex.getRequestURL();
-
+        LOGGER.error(error, ex);
         ApiErrorDTO apiError = new ApiErrorDTO(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), error);
         return new ResponseEntity<>(apiError, new HttpHeaders(), apiError.getStatus());
     }

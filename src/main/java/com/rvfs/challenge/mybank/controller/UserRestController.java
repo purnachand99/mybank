@@ -33,9 +33,14 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Sign up operation.
+     *
+     * @param user User to Sign Up
+     * @return Response Entity with user or error data.
+     */
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@Valid @RequestBody UserDTO user) {
-
 
         UserDTO userResponseBody = null;
         ResponseEntity<Object> responseEntity = null;
@@ -53,6 +58,11 @@ public class UserRestController {
 
     }
 
+    /**
+     * Sign in operation
+     * @param user User to sign in.
+     * @return Response Entity with user or error data.
+     */
     @PostMapping("/signin")
     public ResponseEntity<Object> signin(@Valid @RequestBody UserDTO user) {
 
@@ -62,13 +72,7 @@ public class UserRestController {
         try {
             userResponseBody = userService.signin(user);
 
-            if(userResponseBody == null){
-                String message = messageSource.getMessage("error.invalid.credentials", null, Locale.getDefault());
-                responseEntity = new ResponseEntity<>(
-                        new ApiErrorDTO(HttpStatus.BAD_REQUEST, message, message), HttpStatus.BAD_REQUEST);
-            } else {
-                responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.OK);
-            }
+            responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.OK);
 
         }catch (Exception e){
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
