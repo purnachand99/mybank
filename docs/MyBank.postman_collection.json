@@ -1,0 +1,165 @@
+{
+	"info": {
+		"name": "MyBank",
+		"_postman_id": "7abc0a17-0e4e-42fd-89c6-b062caa4ea5b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\":\"rodrigovfsilva@gmail.com\",\n  \"password\":\"12345678\",\n  \"name\":\"Rodrigo\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"signup"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Sign in",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"email\":\"rodrigovfsilva@gmail.com\",\n  \"password\":\"12345678\",\n  \"name\":\"Rodrigo\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"signin"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Withdraw",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"accountNumber\":1,\n\t\"amount\": 120.00,\n\t\"description\": \"Test Withdraw\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/account/withdraw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"account",
+						"withdraw"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"accountNumber\":1,\n\t\"amount\": 230.00,\n\t\"description\": \"Test Deposit\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/account/deposit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"account",
+						"deposit"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Balance and Statements",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"accountNumber\":1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/account/get_balance_and_statement",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"account",
+						"get_balance_and_statement"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
