@@ -17,6 +17,8 @@ I used the [Classic Way](https://www.petrikainulainen.net/software-development/d
 
 After you run this appication, you can see all operations of the **Rest API** acessing [here](http://localhost:8080/swagger-ui.html)
 
+You can also access the Rest API using Postman with this [import file](https://github.com/rodrigovsilva/mybank/blob/master/docs/MyBank.postman_collection.json)
+
 _Obs.: I used Swagger2 for Rest API documentation_
 
 ## Running in Development (with LiveReload)
