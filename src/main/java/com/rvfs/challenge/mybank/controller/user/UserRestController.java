@@ -1,6 +1,7 @@
-package com.rvfs.challenge.mybank.controller;
+package com.rvfs.challenge.mybank.controller.user;
 
-import com.rvfs.challenge.mybank.dto.AccountDTO;
+import com.rvfs.challenge.mybank.controller.user.request.SigninRequestBody;
+import com.rvfs.challenge.mybank.controller.user.request.SignupResquestBody;
 import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
 import com.rvfs.challenge.mybank.dto.UserDTO;
 import com.rvfs.challenge.mybank.service.UserService;
@@ -38,13 +39,13 @@ public class UserRestController {
 
     @ApiOperation(value = "Signup operation",response = UserDTO.class)
     @PostMapping("/signup")
-    public ResponseEntity<Object> signup(@Valid @RequestBody UserDTO user) {
+    public ResponseEntity<Object> signup(@Valid @RequestBody SignupResquestBody user) {
 
         UserDTO userResponseBody = null;
         ResponseEntity<Object> responseEntity = null;
 
         try {
-            userResponseBody = userService.signup(user);
+            userResponseBody = userService.signup(new UserDTO(user.getEmail(), user.getPassword(), user.getName()));
 
             responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.CREATED);
 
@@ -58,13 +59,13 @@ public class UserRestController {
 
     @ApiOperation(value = "Signin operation",response = UserDTO.class)
     @PostMapping("/signin")
-    public ResponseEntity<Object> signin(@Valid @RequestBody UserDTO user) {
+    public ResponseEntity<Object> signin(@Valid @RequestBody SigninRequestBody user) {
 
         UserDTO userResponseBody = null;
         ResponseEntity<Object> responseEntity = null;
 
         try {
-            userResponseBody = userService.signin(user);
+            userResponseBody = userService.signin(new UserDTO(user.getEmail(), user.getPassword(), null));
 
             responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.OK);
 

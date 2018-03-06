@@ -1,6 +1,7 @@
 package com.rvfs.challenge.mybank.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -12,12 +13,9 @@ import org.hibernate.validator.constraints.NotBlank;
 public class UserDTO {
 
     @NotBlank
-    @Email
-    private String email;
+    @Email private String email;
 
-    @NotBlank
-    private String password;
-
+    @NotBlank private String password;
     private String name;
 
     private AccountDTO account;

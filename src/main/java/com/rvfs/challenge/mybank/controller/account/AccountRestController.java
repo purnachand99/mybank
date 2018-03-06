@@ -1,4 +1,4 @@
-package com.rvfs.challenge.mybank.controller;
+package com.rvfs.challenge.mybank.controller.account;
 
 import com.rvfs.challenge.mybank.dto.AccountDTO;
 import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
