@@ -20,7 +20,7 @@ public class AccountDTO {
 
     private List<TransactionDTO> transactions;
 
-    @JsonSerialize(using=CalendarSerializer.class)
+    @JsonSerialize(using = CalendarSerializer.class)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Calendar updateAt;
 
@@ -65,8 +65,8 @@ public class AccountDTO {
         this.transactions = transactions;
     }
 
-    public void addTransaction(TransactionDTO transaction){
-        if(this.transactions == null){
+    public void addTransaction(TransactionDTO transaction) {
+        if (this.transactions == null) {
             this.transactions = new ArrayList<>();
         }
         this.transactions.add(transaction);

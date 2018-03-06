@@ -1,8 +1,11 @@
 package com.rvfs.challenge.mybank.controller;
 
-import com.rvfs.challenge.mybank.dto.UserDTO;
+import com.rvfs.challenge.mybank.dto.AccountDTO;
 import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
+import com.rvfs.challenge.mybank.dto.UserDTO;
 import com.rvfs.challenge.mybank.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -13,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Locale;
 
 /**
  * User Rest controller.
@@ -22,6 +24,7 @@ import java.util.Locale;
  */
 @RestController
 @RequestMapping("/api/user")
+@Api(value="user", description="Operations for Users data")
 public class UserRestController {
 
     /**
@@ -33,12 +36,7 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    /**
-     * Sign up operation.
-     *
-     * @param user User to Sign Up
-     * @return Response Entity with user or error data.
-     */
+    @ApiOperation(value = "Signup operation",response = UserDTO.class)
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@Valid @RequestBody UserDTO user) {
 
@@ -50,7 +48,7 @@ public class UserRestController {
 
             responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.CREATED);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -58,11 +56,7 @@ public class UserRestController {
 
     }
 
-    /**
-     * Sign in operation
-     * @param user User to sign in.
-     * @return Response Entity with user or error data.
-     */
+    @ApiOperation(value = "Signin operation",response = UserDTO.class)
     @PostMapping("/signin")
     public ResponseEntity<Object> signin(@Valid @RequestBody UserDTO user) {
 
@@ -74,7 +68,7 @@ public class UserRestController {
 
             responseEntity = new ResponseEntity<>(userResponseBody, HttpStatus.OK);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
 
         }

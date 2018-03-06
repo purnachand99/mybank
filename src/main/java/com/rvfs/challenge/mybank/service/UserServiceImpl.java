@@ -1,7 +1,6 @@
 package com.rvfs.challenge.mybank.service;
 
 import com.rvfs.challenge.mybank.dto.AccountDTO;
-import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
 import com.rvfs.challenge.mybank.dto.CustomerDTO;
 import com.rvfs.challenge.mybank.dto.UserDTO;
 import com.rvfs.challenge.mybank.exception.MyBankException;
@@ -14,8 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -34,22 +31,19 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     MessageSource messageSource;
-
-    @Autowired
-    private CustomerService customerService;
-
-    @Autowired
-    private AccountService accountService;
-
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    private CustomerService customerService;
+    @Autowired
+    private AccountService accountService;
 
     @Override
     @Transactional
     public UserDTO signup(UserDTO user) throws MyBankException {
         LOGGER.debug("signup {}", ObjectParserUtil.getInstance().toString(user));
 
-        if(user == null ){
+        if (user == null) {
             throw new MyBankException(messageSource.getMessage("error.invalid.credentials", null, Locale.getDefault()));
         }
 
@@ -82,12 +76,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO signin(UserDTO user) throws MyBankException {
         LOGGER.debug("signin {}", ObjectParserUtil.getInstance().toString(user));
-        if(user == null ){
+        if (user == null) {
             throw new MyBankException(messageSource.getMessage("error.invalid.credentials", null, Locale.getDefault()));
         }
 
         User loggedUser = userRepository.findByEmail(user.getEmail());
-        if(loggedUser != null && StringUtils.pathEquals(loggedUser.getPassword(), user.getPassword())) {
+        if (loggedUser != null && StringUtils.pathEquals(loggedUser.getPassword(), user.getPassword())) {
 
             // getting customer data
             CustomerDTO customer = customerService.find(loggedUser.getId());

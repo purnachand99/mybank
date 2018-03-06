@@ -1,13 +1,11 @@
 package com.rvfs.challenge.mybank.util.serializer;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -18,14 +16,14 @@ public class CalendarSerializer extends StdSerializer<Calendar> {
     public CalendarSerializer() {
         this(null);
     }
- 
+
     public CalendarSerializer(Class t) {
         super(t);
     }
-     
+
     @Override
-    public void serialize (Calendar value, JsonGenerator gen, SerializerProvider arg2)
-      throws IOException {
+    public void serialize(Calendar value, JsonGenerator gen, SerializerProvider arg2)
+            throws IOException {
         gen.writeString(ISODateTimeFormat.dateTime().print(value.getTimeInMillis()));
     }
 }

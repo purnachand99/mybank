@@ -3,7 +3,7 @@ package com.rvfs.challenge.mybank.exception;
 /**
  * Exceptions of MyBank Application.
  */
-public class MyBankException extends Exception{
+public class MyBankException extends Exception {
 
     public MyBankException() {
     }

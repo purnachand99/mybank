@@ -2,7 +2,6 @@ package com.rvfs.challenge.mybank.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rvfs.challenge.mybank.util.serializer.CalendarSerializer;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
@@ -23,7 +22,7 @@ public class TransactionDTO {
 
     private String type;
 
-    @JsonSerialize(using=CalendarSerializer.class)
+    @JsonSerialize(using = CalendarSerializer.class)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Calendar createdAt;
 

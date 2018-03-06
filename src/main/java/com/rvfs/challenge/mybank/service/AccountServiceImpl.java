@@ -13,13 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
     TransactionRepository transactionRepository;
 
     @Override
-    public AccountDTO create(Account account)  {
+    public AccountDTO create(Account account) {
         account.setAccountNumber(AccountNumberGenerator.getNextNumber());
         LOGGER.debug("create {}", ObjectParserUtil.getInstance().toString(account));
 
@@ -60,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 
         AccountDTO foundAccount = new AccountDTO(account.getAccountNumber(), account.getBalance(), account.getUpdatedAt());
 
-        if(account == null) {
+        if (account == null) {
             throw new MyBankException(messageSource.getMessage("error.business.account.not.found", new Object[]{id}, Locale.getDefault()));
         }
 
@@ -72,9 +70,9 @@ public class AccountServiceImpl implements AccountService {
     public AccountDTO findByNumber(Long accountNumber) throws MyBankException {
         LOGGER.debug("findByNumber {}", accountNumber);
 
-        Account account =  accountRepository.findByAccountNumber(accountNumber);
+        Account account = accountRepository.findByAccountNumber(accountNumber);
 
-        if(account == null) {
+        if (account == null) {
             throw new MyBankException(messageSource.getMessage("error.business.account.not.found", new Object[]{accountNumber}, Locale.getDefault()));
         }
 
@@ -89,7 +87,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDTO withdraw(TransactionDTO transaction) throws MyBankException {
         AccountDTO updatedAccount = new AccountDTO();
 
-        if(transaction != null) {
+        if (transaction != null) {
 
             if (transaction.getAccountNumber() == null) {
                 throw new MyBankException(messageSource.getMessage("error.business.account.null.or.empty", null, Locale.getDefault()));
@@ -105,7 +103,7 @@ public class AccountServiceImpl implements AccountService {
             } else {
                 Account currentAccount = accountRepository.findByAccountNumber(transaction.getAccountNumber());
 
-                if(currentAccount != null) {
+                if (currentAccount != null) {
                     BigDecimal currentBalance = currentAccount.getBalance();
 
                     if (currentBalance != null) {
@@ -141,7 +139,7 @@ public class AccountServiceImpl implements AccountService {
 
         AccountDTO updatedAccount = new AccountDTO();
 
-        if(transaction != null) {
+        if (transaction != null) {
 
             if (transaction.getAccountNumber() == null) {
                 throw new MyBankException(messageSource.getMessage("error.business.account.null.or.empty", null, Locale.getDefault()));
@@ -157,7 +155,7 @@ public class AccountServiceImpl implements AccountService {
             } else {
                 Account currentAccount = accountRepository.findByAccountNumber(transaction.getAccountNumber());
 
-                if(currentAccount != null) {
+                if (currentAccount != null) {
 
                     BigDecimal currentBalance = currentAccount.getBalance();
 
@@ -192,21 +190,21 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDTO getStatement(AccountDTO account) throws MyBankException {
 
-        if(account == null){
+        if (account == null) {
             throw new MyBankException(messageSource.getMessage("error.business.account.null.or.empty", null, Locale.getDefault()));
         }
 
         Account foundAccount = accountRepository.findByAccountNumber(account.getAccountNumber());
 
-        if(foundAccount == null){
+        if (foundAccount == null) {
             throw new MyBankException(messageSource.getMessage("error.business.account.not.found", new Object[]{account.getAccountNumber()}, Locale.getDefault()));
         }
 
         AccountDTO resultAccount = new AccountDTO(foundAccount.getAccountNumber(), foundAccount.getBalance(), foundAccount.getUpdatedAt());
 
         List<Transaction> transactions = transactionRepository.findByAccountAccountNumber(foundAccount.getAccountNumber());
-        if(transactions != null){
-            for(Transaction transaction : transactions){
+        if (transactions != null) {
+            for (Transaction transaction : transactions) {
                 resultAccount.addTransaction(new TransactionDTO(transaction.getAccount().getAccountNumber(),
                         transaction.getAmount(), transaction.getBalance(),
                         transaction.getDescription(), transaction.getType(),

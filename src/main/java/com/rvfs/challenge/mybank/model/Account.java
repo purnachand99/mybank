@@ -20,12 +20,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-/*@NamedEntityGraphs({
-        @NamedEntityGraph(name="allTransactions", attributeNodes = {
-                @NamedAttributeNode("transactions")
-        })
-})*/
-public class Account implements Serializable{
+public class Account implements Serializable {
 
     @Id
     private Long id;

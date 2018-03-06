@@ -46,9 +46,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle when a client sends an invalid request to the API.
      *
-     * @param ex Exception to be handled
+     * @param ex      Exception to be handled
      * @param headers Http Headers
-     * @param status Http Status
+     * @param status  Http Status
      * @param request Http Request
      * @return Response Entity with API Error data
      */
@@ -75,9 +75,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle when the part of a multipart request is not found or the request has a missing parameter.
      *
-     * @param ex Exception to be handled
+     * @param ex      Exception to be handled
      * @param headers Http Headers
-     * @param status Http Status
+     * @param status  Http Status
      * @param request Http Request
      * @return Response Entity with API Error data
      */
@@ -96,15 +96,15 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle when a http message cannot be converted or read (Ex: Post without body etc).
      *
-     * @param ex Exception to be handled
+     * @param ex      Exception to be handled
      * @param headers Http Headers
-     * @param status Http Status
+     * @param status  Http Status
      * @param request Http Request
      * @return Response Entity with API Error data
      */
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String[] errorMessage = StringUtils.split(ex.getLocalizedMessage(),":");
+        String[] errorMessage = StringUtils.split(ex.getLocalizedMessage(), ":");
 
         String error = errorMessage != null ? errorMessage[0] : ex.getLocalizedMessage();
         LOGGER.error(error, ex);
@@ -116,9 +116,9 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
     /**
      * Handle when any handler has not found.
      *
-     * @param ex Exception to be handled
+     * @param ex      Exception to be handled
      * @param headers Http Headers
-     * @param status Http Status
+     * @param status  Http Status
      * @param request Http Request
      * @return Response Entity with API Error data
      */
@@ -138,7 +138,7 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
      * @return Localized error message.
      */
     private String resolveLocalizedErrorMessage(ObjectError fieldError) {
-        Locale currentLocale =  LocaleContextHolder.getLocale();
+        Locale currentLocale = LocaleContextHolder.getLocale();
         String localizedErrorMessage = messageSource.getMessage(fieldError, currentLocale);
 
         //If the message was not found, return the most accurate field error code instead.

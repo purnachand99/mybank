@@ -34,8 +34,8 @@ server:
 ### Log settings
 logging:
   level:
-    org.springframework.web: INFO
-    org.hibernate: INFO
+    org.springframework.web: ALL
+    org.hibernate: ALL
     com.rvfs.challenge.mybank: DEBUG
     pattern:
       console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"

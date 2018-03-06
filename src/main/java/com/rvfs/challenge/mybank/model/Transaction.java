@@ -19,55 +19,23 @@ import java.util.Calendar;
         allowGetters = true)
 public class Transaction implements Serializable {
 
-    /**
-     * Transaction types.
-     */
-    public enum Type{
-        WITHDRAW("W", "Withdraw"),
-        DEPOSIT("D", "Deposit");
-
-        private String code;
-
-        private String description;
-
-        Type(String code, String description) {
-            this.code = code;
-            this.description = description;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="accountNumber",referencedColumnName = "accountNumber")
+    @JoinColumn(name = "accountNumber", referencedColumnName = "accountNumber")
     private Account account;
-
     @NotNull
     private BigDecimal amount;
-
     @NotNull
     private BigDecimal balance;
-
     private String description;
-
     @NotBlank
     private String type;
-
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Calendar createdAt;
-
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
@@ -135,5 +103,30 @@ public class Transaction implements Serializable {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    /**
+     * Transaction types.
+     */
+    public enum Type {
+        WITHDRAW("W", "Withdraw"),
+        DEPOSIT("D", "Deposit");
+
+        private String code;
+
+        private String description;
+
+        Type(String code, String description) {
+            this.code = code;
+            this.description = description;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 }

@@ -6,6 +6,8 @@ import com.rvfs.challenge.mybank.dto.TransactionDTO;
 import com.rvfs.challenge.mybank.exception.MyBankException;
 import com.rvfs.challenge.mybank.service.AccountService;
 import com.rvfs.challenge.mybank.util.ObjectParserUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import java.lang.invoke.MethodHandles;
  */
 @RestController
 @RequestMapping("/api/account")
+@Api(value="account", description="Account Operations: deposit, withdraw and get statements and balance information")
 public class AccountRestController {
 
     /**
@@ -43,6 +46,7 @@ public class AccountRestController {
     @Autowired
     private AccountService accountService;
 
+    @ApiOperation(value = "Withdraw operation",response = AccountDTO.class)
     @PostMapping("/withdraw")
     public ResponseEntity<Object> withdraw(@Valid @RequestBody TransactionDTO transaction) {
         LOGGER.debug("withdraw request body {}", ObjectParserUtil.getInstance().toString(transaction));
@@ -55,10 +59,10 @@ public class AccountRestController {
 
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
-        }catch (MyBankException e){
+        } catch (MyBankException e) {
             LOGGER.warn(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         } finally {
@@ -70,8 +74,9 @@ public class AccountRestController {
 
     }
 
+    @ApiOperation(value = "Deposit operation",response = AccountDTO.class)
     @PostMapping("/deposit")
-    public ResponseEntity<Object> deposit(@Valid @RequestBody  TransactionDTO transaction) {
+    public ResponseEntity<Object> deposit(@Valid @RequestBody TransactionDTO transaction) {
         LOGGER.debug("deposit request body {}", ObjectParserUtil.getInstance().toString(transaction));
 
         AccountDTO accountResponseBody;
@@ -82,13 +87,13 @@ public class AccountRestController {
 
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
-        }catch (MyBankException e){
+        } catch (MyBankException e) {
             LOGGER.warn(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }finally {
+        } finally {
             LOGGER.debug("deposit response body {}", ObjectParserUtil.getInstance().toString(responseEntity));
 
         }
@@ -97,8 +102,9 @@ public class AccountRestController {
 
     }
 
+    @ApiOperation(value = "Balance and statement operation",response = AccountDTO.class)
     @PostMapping("/get_balance_and_statement")
-    public ResponseEntity<Object> getBalanceAndStatement(@Valid @RequestBody  AccountDTO account) {
+    public ResponseEntity<Object> getBalanceAndStatement(@Valid @RequestBody AccountDTO account) {
         LOGGER.debug("getBalanceAndStatement request body {}", ObjectParserUtil.getInstance().toString(account));
 
         AccountDTO accountResponseBody;
@@ -109,13 +115,13 @@ public class AccountRestController {
 
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.OK);
 
-        }catch (MyBankException e){
+        } catch (MyBankException e) {
             LOGGER.warn(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.BAD_REQUEST, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage(), e);
             responseEntity = new ResponseEntity<>(new ApiErrorDTO(HttpStatus.INTERNAL_SERVER_ERROR, e.getLocalizedMessage(), e.getLocalizedMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }finally {
+        } finally {
             LOGGER.debug("getBalanceAndStatement response body {}", ObjectParserUtil.getInstance().toString(responseEntity));
 
         }
