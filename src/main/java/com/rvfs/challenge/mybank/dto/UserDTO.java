@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+/**
+ * User Data Transfer Object.
+ */
 @JsonIgnoreProperties(value = {"password"},
         allowSetters = true)
 public class UserDTO {

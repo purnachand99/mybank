@@ -21,6 +21,9 @@ import java.lang.invoke.MethodHandles;
 import java.math.BigDecimal;
 import java.util.Locale;
 
+/**
+ * User service implementation.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

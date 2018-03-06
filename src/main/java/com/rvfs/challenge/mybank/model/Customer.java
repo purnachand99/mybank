@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 
+/**
+ * Customer Model.
+ */
 @Entity
 @Table(name = "Customer")
 @EntityListeners(AuditingEntityListener.class)

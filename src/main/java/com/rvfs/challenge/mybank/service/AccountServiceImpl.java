@@ -21,6 +21,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Account service implementation.
+ */
 @Service
 public class AccountServiceImpl implements AccountService {
 

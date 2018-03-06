@@ -9,6 +9,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+/**
+ * MyBank Application.
+ */
 @SpringBootApplication
 @Configuration
 @EnableJpaAuditing

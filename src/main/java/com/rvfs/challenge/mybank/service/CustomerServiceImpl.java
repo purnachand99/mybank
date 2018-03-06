@@ -6,6 +6,9 @@ import com.rvfs.challenge.mybank.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Customer service implementation.
+ */
 @Service
 public class CustomerServiceImpl implements CustomerService {
     @Autowired

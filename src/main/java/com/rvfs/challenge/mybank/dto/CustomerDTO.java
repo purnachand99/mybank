@@ -1,5 +1,8 @@
 package com.rvfs.challenge.mybank.dto;
 
+/**
+ * Customer Data Transfer Object.
+ */
 public class CustomerDTO {
 
     private String name;

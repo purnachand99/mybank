@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+/**
+ * Transaction Data Transfer Object.
+ */
 public class TransactionDTO {
 
     @NotNull

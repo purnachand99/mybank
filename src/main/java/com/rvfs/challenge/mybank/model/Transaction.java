@@ -12,6 +12,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+/**
+ * Transaction model.
+ */
 @Entity
 @Table(name = "Transaction")
 @EntityListeners(AuditingEntityListener.class)

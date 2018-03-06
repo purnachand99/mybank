@@ -11,6 +11,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
 
+/**
+ * User model.
+ */
 @Entity
 @Table(name = "User")
 @EntityListeners(AuditingEntityListener.class)

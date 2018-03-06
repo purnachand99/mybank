@@ -9,7 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 
+/**
+ * Parser Util.
+ */
 public class ObjectParserUtil {
+
     /**
      * Logger definition.
      */
@@ -24,6 +28,11 @@ public class ObjectParserUtil {
         return ourInstance;
     }
 
+    /**
+     * Convert an object to string.
+     * @param o Object to be converted.
+     * @return String as Json.
+     */
     public String toString(Object o) {
         String result;
 
@@ -36,16 +45,4 @@ public class ObjectParserUtil {
         return result;
     }
 
-    public String toJsonString(File file) {
-        String result = null;
-
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            return mapper.readValue(file, String.class);
-
-        } catch (IOException e) {
-            LOGGER.error(e.getLocalizedMessage(), e);
-        }
-        return result;
-    }
 }
