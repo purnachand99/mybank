@@ -1,7 +1,7 @@
 package com.rvfs.challenge.mybank.service;
 
-import com.rvfs.challenge.mybank.dto.AccountDTO;
-import com.rvfs.challenge.mybank.dto.TransactionDTO;
+import com.rvfs.challenge.mybank.service.dto.AccountDTO;
+import com.rvfs.challenge.mybank.service.dto.TransactionDTO;
 import com.rvfs.challenge.mybank.exception.MyBankException;
 import com.rvfs.challenge.mybank.model.Account;
 
@@ -60,6 +60,6 @@ public interface AccountService {
      * @return Account data.
      * @throws MyBankException If occurs an error during the method execution.
      */
-    AccountDTO getStatement(AccountDTO account) throws MyBankException;
+    AccountDTO getBalanceAndStatement(AccountDTO account) throws MyBankException;
 
 }

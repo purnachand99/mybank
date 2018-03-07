@@ -1,4 +1,4 @@
-package com.rvfs.challenge.mybank.controller.user.request;
+package com.rvfs.challenge.mybank.web.controller.user.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Email;

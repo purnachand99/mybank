@@ -1,4 +1,4 @@
-package com.rvfs.challenge.mybank.dto;
+package com.rvfs.challenge.mybank.service.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rvfs.challenge.mybank.util.serializer.CalendarSerializer;
@@ -30,6 +30,12 @@ public class TransactionDTO {
     private Calendar createdAt;
 
     public TransactionDTO() {
+    }
+
+    public TransactionDTO(Long accountNumber, BigDecimal amount, String description) {
+        this.accountNumber = accountNumber;
+        this.amount = amount;
+        this.description = description;
     }
 
     public TransactionDTO(Long accountNumber, BigDecimal amount, BigDecimal balance, String description, String type, Calendar createdAt) {

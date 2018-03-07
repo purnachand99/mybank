@@ -1,8 +1,8 @@
 package com.rvfs.challenge.mybank.service;
 
-import com.rvfs.challenge.mybank.dto.AccountDTO;
-import com.rvfs.challenge.mybank.dto.CustomerDTO;
-import com.rvfs.challenge.mybank.dto.UserDTO;
+import com.rvfs.challenge.mybank.service.dto.AccountDTO;
+import com.rvfs.challenge.mybank.service.dto.CustomerDTO;
+import com.rvfs.challenge.mybank.service.dto.UserDTO;
 import com.rvfs.challenge.mybank.exception.MyBankException;
 import com.rvfs.challenge.mybank.model.Account;
 import com.rvfs.challenge.mybank.model.Customer;

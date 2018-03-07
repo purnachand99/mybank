@@ -1,6 +1,6 @@
 package com.rvfs.challenge.mybank.service;
 
-import com.rvfs.challenge.mybank.dto.UserDTO;
+import com.rvfs.challenge.mybank.service.dto.UserDTO;
 import com.rvfs.challenge.mybank.exception.MyBankException;
 
 /**

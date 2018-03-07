@@ -1,9 +1,9 @@
-package com.rvfs.challenge.mybank.controller.user;
+package com.rvfs.challenge.mybank.web.controller.user;
 
-import com.rvfs.challenge.mybank.controller.user.request.SigninRequestBody;
-import com.rvfs.challenge.mybank.controller.user.request.SignupResquestBody;
-import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
-import com.rvfs.challenge.mybank.dto.UserDTO;
+import com.rvfs.challenge.mybank.web.controller.user.request.SigninRequestBody;
+import com.rvfs.challenge.mybank.web.controller.user.request.SignupResquestBody;
+import com.rvfs.challenge.mybank.service.dto.ApiErrorDTO;
+import com.rvfs.challenge.mybank.service.dto.UserDTO;
 import com.rvfs.challenge.mybank.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

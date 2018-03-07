@@ -1,8 +1,10 @@
-package com.rvfs.challenge.mybank.controller.account;
+package com.rvfs.challenge.mybank.web.controller.account;
 
-import com.rvfs.challenge.mybank.dto.AccountDTO;
-import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
-import com.rvfs.challenge.mybank.dto.TransactionDTO;
+import com.rvfs.challenge.mybank.web.controller.account.request.GetBalanceRequestBody;
+import com.rvfs.challenge.mybank.web.controller.account.request.TransactionRequestBody;
+import com.rvfs.challenge.mybank.service.dto.AccountDTO;
+import com.rvfs.challenge.mybank.service.dto.ApiErrorDTO;
+import com.rvfs.challenge.mybank.service.dto.TransactionDTO;
 import com.rvfs.challenge.mybank.exception.MyBankException;
 import com.rvfs.challenge.mybank.service.AccountService;
 import com.rvfs.challenge.mybank.util.ObjectParserUtil;
@@ -48,14 +50,16 @@ public class AccountRestController {
 
     @ApiOperation(value = "Withdraw operation",response = AccountDTO.class)
     @PostMapping("/withdraw")
-    public ResponseEntity<Object> withdraw(@Valid @RequestBody TransactionDTO transaction) {
+    public ResponseEntity<Object> withdraw(@Valid @RequestBody TransactionRequestBody transaction) {
         LOGGER.debug("withdraw request body {}", ObjectParserUtil.getInstance().toString(transaction));
 
         AccountDTO accountResponseBody;
         ResponseEntity<Object> responseEntity = null;
 
         try {
-            accountResponseBody = accountService.withdraw(transaction);
+            TransactionDTO withdrawTransaction = new TransactionDTO(transaction.getAccountNumber(), transaction.getAmount(), transaction.getDescription());
+
+            accountResponseBody = accountService.withdraw(withdrawTransaction);
 
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
@@ -76,14 +80,17 @@ public class AccountRestController {
 
     @ApiOperation(value = "Deposit operation",response = AccountDTO.class)
     @PostMapping("/deposit")
-    public ResponseEntity<Object> deposit(@Valid @RequestBody TransactionDTO transaction) {
+    public ResponseEntity<Object> deposit(@Valid @RequestBody TransactionRequestBody transaction) {
         LOGGER.debug("deposit request body {}", ObjectParserUtil.getInstance().toString(transaction));
 
         AccountDTO accountResponseBody;
         ResponseEntity<Object> responseEntity = null;
 
         try {
-            accountResponseBody = accountService.deposit(transaction);
+
+            TransactionDTO depositTransaction = new TransactionDTO(transaction.getAccountNumber(), transaction.getAmount(), transaction.getDescription());
+
+            accountResponseBody = accountService.deposit(depositTransaction);
 
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.CREATED);
 
@@ -104,14 +111,17 @@ public class AccountRestController {
 
     @ApiOperation(value = "Balance and statement operation",response = AccountDTO.class)
     @PostMapping("/get_balance_and_statement")
-    public ResponseEntity<Object> getBalanceAndStatement(@Valid @RequestBody AccountDTO account) {
-        LOGGER.debug("getBalanceAndStatement request body {}", ObjectParserUtil.getInstance().toString(account));
+    public ResponseEntity<Object> getBalanceAndStatement(@Valid @RequestBody GetBalanceRequestBody getBalance) {
+        LOGGER.debug("getBalanceAndStatement request body {}", ObjectParserUtil.getInstance().toString(getBalance));
 
         AccountDTO accountResponseBody;
         ResponseEntity<Object> responseEntity = null;
 
         try {
-            accountResponseBody = accountService.getStatement(account);
+            AccountDTO account = new AccountDTO();
+            account.setAccountNumber(getBalance.getAccountNumber());
+
+            accountResponseBody = accountService.getBalanceAndStatement(account);
 
             responseEntity = new ResponseEntity<>(accountResponseBody, HttpStatus.OK);
 

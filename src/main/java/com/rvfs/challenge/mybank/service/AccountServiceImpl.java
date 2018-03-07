@@ -1,7 +1,7 @@
 package com.rvfs.challenge.mybank.service;
 
-import com.rvfs.challenge.mybank.dto.AccountDTO;
-import com.rvfs.challenge.mybank.dto.TransactionDTO;
+import com.rvfs.challenge.mybank.service.dto.AccountDTO;
+import com.rvfs.challenge.mybank.service.dto.TransactionDTO;
 import com.rvfs.challenge.mybank.exception.MyBankException;
 import com.rvfs.challenge.mybank.model.Account;
 import com.rvfs.challenge.mybank.model.Transaction;
@@ -191,7 +191,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDTO getStatement(AccountDTO account) throws MyBankException {
+    public AccountDTO getBalanceAndStatement(AccountDTO account) throws MyBankException {
 
         if (account == null) {
             throw new MyBankException(messageSource.getMessage("error.business.account.null.or.empty", null, Locale.getDefault()));

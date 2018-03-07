@@ -1,4 +1,4 @@
-package com.rvfs.challenge.mybank.dto;
+package com.rvfs.challenge.mybank.service.dto;
 
 /**
  * Customer Data Transfer Object.

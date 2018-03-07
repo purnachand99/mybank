@@ -1,6 +1,6 @@
-package com.rvfs.challenge.mybank.exception;
+package com.rvfs.challenge.mybank.exception.handler;
 
-import com.rvfs.challenge.mybank.dto.ApiErrorDTO;
+import com.rvfs.challenge.mybank.service.dto.ApiErrorDTO;
 import com.rvfs.challenge.mybank.util.ObjectParserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.rvfs.challenge.mybank.dto;
+package com.rvfs.challenge.mybank.service.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.rvfs.challenge.mybank.util.serializer.CalendarSerializer;

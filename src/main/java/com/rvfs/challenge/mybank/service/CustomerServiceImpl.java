@@ -1,6 +1,6 @@
 package com.rvfs.challenge.mybank.service;
 
-import com.rvfs.challenge.mybank.dto.CustomerDTO;
+import com.rvfs.challenge.mybank.service.dto.CustomerDTO;
 import com.rvfs.challenge.mybank.model.Customer;
 import com.rvfs.challenge.mybank.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
